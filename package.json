@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/sachins0412/task-api-elRed#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.18.1",
     "mongoose": "^6.6.1",
     "validator": "^13.7.0"

@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-
 const { Task } = require("./../models/task");
+const checkDate = require("./../middlewares/checkDate");
 
-router.post("/create", async (req, res) => {
+router.post("/create", checkDate, async (req, res) => {
   const task = new Task(req.body);
   try {
     await task.save();
@@ -13,12 +13,12 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", checkDate, async (req, res) => {
   const updates = Object.keys(req.body);
   try {
     const task = await Task.findById(req.params.id);
     if (!task) {
-      res.status(404).send("task not found");
+      return res.status(404).send("task not found");
     }
 
     updates.forEach((update) => {
@@ -45,4 +45,5 @@ router.delete("/:id", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
 module.exports = router;

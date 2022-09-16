@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-
+const moment = require("moment");
 const taskSchema = mongoose.Schema({
   date: {
-    type: Date,
-    default: new Date(),
+    type: String,
+    default: moment(new Date()).format("YYYY-MM-DD"),
   },
   task: {
     type: String,

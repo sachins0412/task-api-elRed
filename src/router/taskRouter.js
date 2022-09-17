@@ -29,7 +29,7 @@ router.patch("/:id", isAuth, checkDate, async (req, res) => {
     await task.save();
     res.send(task);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send(error.message);
   }
 });
 

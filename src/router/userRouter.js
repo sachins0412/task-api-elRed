@@ -3,7 +3,9 @@ const router = express.Router();
 
 const { User } = require("./../models/user");
 
-router.post("/signup", async (req, res) => {
+const checkLoggedIn = require("./../middlewares/checkLoggedInMiddleware");
+
+router.post("/signup", checkLoggedIn, async (req, res) => {
   const user = new User(req.body);
   try {
     await user.save();
@@ -14,7 +16,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", checkLoggedIn, async (req, res) => {
   try {
     const user = await User.findUser(req.body.email, req.body.password);
     req.session.isAuth = true;

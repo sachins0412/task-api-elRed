@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const { Task } = require("./../models/task");
 const checkDate = require("./../middlewares/checkDate");
+const isAuth = require("./../middlewares/isAuth");
 
-router.post("/create", checkDate, async (req, res) => {
+router.post("/create", isAuth, checkDate, async (req, res) => {
   const task = new Task(req.body);
   try {
     await task.save();
@@ -13,7 +14,7 @@ router.post("/create", checkDate, async (req, res) => {
   }
 });
 
-router.patch("/:id", checkDate, async (req, res) => {
+router.patch("/:id", isAuth, checkDate, async (req, res) => {
   const updates = Object.keys(req.body);
   try {
     const task = await Task.findById(req.params.id);
@@ -32,7 +33,7 @@ router.patch("/:id", checkDate, async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isAuth, async (req, res) => {
   try {
     const task = await Task.findByIdAndDelete(req.params.id);
 

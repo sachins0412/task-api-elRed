@@ -5,7 +5,11 @@ const checkDate = require("./../middlewares/checkDate");
 const isAuth = require("./../middlewares/isAuth");
 
 router.post("/create", isAuth, checkDate, async (req, res) => {
-  const task = new Task(req.body);
+  const task = new Task({
+    ...req.body,
+    owner: req.session.user,
+  });
+
   try {
     await task.save();
     res.send(task);
@@ -14,6 +18,7 @@ router.post("/create", isAuth, checkDate, async (req, res) => {
   }
 });
 
+//TODO map to user task
 router.patch("/:id", isAuth, checkDate, async (req, res) => {
   const updates = Object.keys(req.body);
   try {
@@ -33,6 +38,7 @@ router.patch("/:id", isAuth, checkDate, async (req, res) => {
   }
 });
 
+//TODO map to user task
 router.delete("/:id", isAuth, async (req, res) => {
   try {
     const task = await Task.findByIdAndDelete(req.params.id);

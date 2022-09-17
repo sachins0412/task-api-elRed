@@ -20,6 +20,7 @@ router.post("/login", checkLoggedIn, async (req, res) => {
   try {
     const user = await User.findUser(req.body.email, req.body.password);
     req.session.isAuth = true;
+    req.session.user = user;
     res.send(user);
   } catch (error) {
     error.status = error.status || 500;

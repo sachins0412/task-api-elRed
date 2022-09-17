@@ -11,6 +11,9 @@ const initializeSession = session({
   secret: "mysecret",
   resave: false,
   saveUninitialized: false,
+  cookie: {
+    maxAge: 30 * 1000,
+  },
   store: store,
 });
 

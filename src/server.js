@@ -4,6 +4,10 @@ app.use(express.json());
 
 require("./database/mongoose");
 
+const initializeSession = require("./middlewares/initializeSession");
+
+app.use(initializeSession);
+
 const userRouter = require("./router/userRouter");
 const taskRouter = require("./router/taskRouter");
 

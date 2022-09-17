@@ -12,7 +12,7 @@ router.post("/signup", checkLoggedIn, async (req, res) => {
     req.session.isAuth = true;
     res.send("SignUp successful and you are logged in now");
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send(error.message);
   }
 });
 

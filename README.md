@@ -2,7 +2,7 @@
 
 This api provides endpoints for user to register,login and create tasks with properties like date,task,status. 
 
-User can use the patch endpoint to update and existing task and the delete endpoint to delete an existing task.
+User can use the patch endpoint to update an existing task and the delete endpoint to delete an existing task.
 
 Both patching and deleting are done using the task's unique id which is provided as an output whenever a task is created or updated.
 

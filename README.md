@@ -38,7 +38,7 @@ Postman collection for the api is given in the repo. the following info can also
     
     - task : String, required
     - date : String, default - today's date ( YYYY-MM-DD format)
-    - status : String, default - 'incomplete', valid values - 'incomplete,complete'
+    - status : String, default - 'incomplete', valid values - 'incomplete','complete'
     
 ## 4. Update Task : PATCH {{host}}/tasks/{taskId}
     
@@ -48,7 +48,7 @@ Postman collection for the api is given in the repo. the following info can also
     
     - task : String
     - date : String( YYYY-MM-DD format)
-    - status :valid values - 'incomplete,complete'
+    - status : valid values - 'incomplete','complete'
     
 ## 4. Delete Task : DELETE {{host}}/tasks/{taskId}
     

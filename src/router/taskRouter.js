@@ -18,11 +18,14 @@ router.post("/create", isAuth, checkDate, async (req, res) => {
   }
 });
 
-//TODO map to user task
 router.patch("/:id", isAuth, checkDate, async (req, res) => {
   const updates = Object.keys(req.body);
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findOne({
+      _id: req.params.id,
+      owner: req.session.user,
+    });
+
     if (!task) {
       return res.status(404).send("task not found");
     }
@@ -38,10 +41,12 @@ router.patch("/:id", isAuth, checkDate, async (req, res) => {
   }
 });
 
-//TODO map to user task
 router.delete("/:id", isAuth, async (req, res) => {
   try {
-    const task = await Task.findByIdAndDelete(req.params.id);
+    const task = await Task.findOneAndDelete({
+      _id: req.params.id,
+      owner: req.session.user,
+    });
 
     if (!task) {
       return res.status(404).send("task not found");

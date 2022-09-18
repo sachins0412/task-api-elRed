@@ -8,7 +8,6 @@ const taskSchema = mongoose.Schema({
   task: {
     type: String,
     trim: true,
-    unique: true,
     required: true,
   },
   status: {

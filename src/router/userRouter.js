@@ -10,6 +10,7 @@ router.post("/signup", checkLoggedIn, async (req, res) => {
   try {
     await user.save();
     req.session.isAuth = true;
+    req.session.user = user;
     res.send("SignUp successful and you are logged in now");
   } catch (error) {
     res.status(400).send(error.message);

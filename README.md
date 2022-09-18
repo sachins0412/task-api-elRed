@@ -1,4 +1,4 @@
-# task-api-elRed
+# Task-api-elRed
 
 This api provides endpoints for user to register,login and create tasks with properties like date,task,status. 
 

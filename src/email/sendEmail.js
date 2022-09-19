@@ -15,7 +15,7 @@ const sendEmail = (email, name) => {
       text: `Your OTP for login verification in task-api-elred is ${otp}`,
     })
     .then(() => {
-      console.log("mail sent for enrollment");
+      console.log("mail sent for OTP verification");
     })
     .catch((e) => {
       console.log(e);

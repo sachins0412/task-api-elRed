@@ -17,7 +17,7 @@ router.post("/signup", checkLoggedIn, async (req, res) => {
     sendEmail(user.email, user.otp);
 
     res.send(
-      "SignUp successful. Please verify the OTP (sent on your email) at /verify route to login and begin your session."
+      "SignUp successful. Please verify the OTP (sent on your email) at /users/verify route to login and begin your session."
     );
   } catch (error) {
     res.status(400).send(error.message);
@@ -27,9 +27,14 @@ router.post("/signup", checkLoggedIn, async (req, res) => {
 router.post("/login", checkLoggedIn, async (req, res) => {
   try {
     const user = await User.findUser(req.body.email, req.body.password);
-    // req.session.isAuth = true;
-    // req.session.user = user;
-    res.send(user);
+
+    user.otp = generateOTP();
+    await user.save();
+    sendEmail(user.email, user.otp);
+
+    res.send(
+      "Please verify the OTP(sent on your email) at /users/verify to begin your session"
+    );
   } catch (error) {
     error.status = error.status || 500;
     res.status(error.status).json(error);

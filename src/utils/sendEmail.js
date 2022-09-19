@@ -4,9 +4,7 @@ const API_KEY = "dummy key";
 
 sgMail.setApiKey(API_KEY);
 
-const otp = 1234;
-
-const sendEmail = (email, name) => {
+const sendEmail = (email, otp) => {
   sgMail
     .send({
       to: email,

@@ -26,6 +26,9 @@ const userSchema = mongoose.Schema({
     trim: true,
     minlength: 8,
   },
+  otp: {
+    type: Number,
+  },
 });
 
 userSchema.virtual("tasks", {
@@ -48,6 +51,7 @@ userSchema.methods.toJSON = function () {
   const user = this;
   const userObject = user.toObject();
   delete userObject.password;
+  delete userObject.otp;
   return userObject;
 };
 

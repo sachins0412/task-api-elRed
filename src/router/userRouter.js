@@ -3,15 +3,22 @@ const router = express.Router();
 
 const { User } = require("./../models/user");
 
+const { sendEmail } = require("../utils/sendEmail");
+const generateOTP = require("./../utils/otpGenerator");
+
 const checkLoggedIn = require("./../middlewares/checkLoggedInMiddleware");
 
 router.post("/signup", checkLoggedIn, async (req, res) => {
   const user = new User(req.body);
+  user.otp = generateOTP();
   try {
     await user.save();
-    req.session.isAuth = true;
-    req.session.user = user;
-    res.send("SignUp successful and you are logged in now");
+
+    sendEmail(user.email, user.otp);
+
+    res.send(
+      "SignUp successful. Please verify the OTP (sent on your email) at /verify route to login and begin your session."
+    );
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -20,8 +27,8 @@ router.post("/signup", checkLoggedIn, async (req, res) => {
 router.post("/login", checkLoggedIn, async (req, res) => {
   try {
     const user = await User.findUser(req.body.email, req.body.password);
-    req.session.isAuth = true;
-    req.session.user = user;
+    // req.session.isAuth = true;
+    // req.session.user = user;
     res.send(user);
   } catch (error) {
     error.status = error.status || 500;
@@ -34,7 +41,33 @@ router.post("/logout", (req, res) => {
     req.session.destroy();
     return res.send("logged off now");
   }
-  res.status(401).send("you are not loggedin");
+  res.status(401).send("you are not logged in");
 });
 
+router.post("/verify", async (req, res) => {
+  const { email, otp } = req.body;
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(404).send("User Not Found");
+  }
+
+  if (!user.otp) {
+    return res
+      .status(403)
+      .send("Please generate OTP first before proceeding to verify");
+  }
+
+  if (user.otp === parseInt(otp)) {
+    user.set("otp", undefined, { strict: false });
+    await user.save();
+
+    req.session.isAuth = true;
+    req.session.user = user;
+
+    res.send("OTP verified. You are now logged in");
+  } else {
+    res.status(400).send("OTP verification failed");
+  }
+});
 module.exports = router;

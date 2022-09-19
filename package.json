@@ -26,6 +26,7 @@
     "express-session": "^1.17.3",
     "moment": "^2.29.4",
     "mongoose": "^6.6.1",
+    "otp-generator": "^4.0.0",
     "validator": "^13.7.0"
   }
 }

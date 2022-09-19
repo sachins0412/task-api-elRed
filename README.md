@@ -17,7 +17,7 @@ Postman collection for the api is given in the repo. the following info can also
     - email : String, unique
     - password : String, minlength = 8
     
-    this will register the user as well as logs in the user at the same time
+    This will register the user in the DB and send an OTP to the email registered. User has to verify the OTP at /users/verify to begin the session.
     
 ## 2. Login : POST {{host}}/users/login
 
@@ -26,13 +26,22 @@ Postman collection for the api is given in the repo. the following info can also
     - email : String
     - password : String
     
-    Logs in the already registered user
+    It sends an OTP to the registered email (if the provided credentials are valid), user has to verify the OTP at /users/verify to begin the session.
     
-## 3. Logout : POST {{host}}/users/login
+## 3. verify OTP : POST {{host}}/users/verify
+
+    takes the following(All mandatory) as request body in JSON :
+
+    - email : String
+    - otp : String
+    
+    It verifies the otp. If valid, user session begins. If invalid, user can retry. To regenerate the OTP user has to login via /users/login route.
+    
+## 4. Logout : POST {{host}}/users/login
 
     logs out the current logged in user
     
-## 3. Create Task : POST {{host}}/tasks/create
+## 5. Create Task : POST {{host}}/tasks/create
 
     takes the following as request body in JSON :
     
@@ -40,7 +49,7 @@ Postman collection for the api is given in the repo. the following info can also
     - date : String, default - today's date ( YYYY-MM-DD format)
     - status : String, default - 'incomplete', valid values - 'incomplete','complete'
     
-## 4. Update Task : PATCH {{host}}/tasks/{taskId}
+## 6. Update Task : PATCH {{host}}/tasks/{taskId}
     
     takes {taskId} as path param. refers to id of the task to be updated
     
@@ -50,7 +59,7 @@ Postman collection for the api is given in the repo. the following info can also
     - date : String( YYYY-MM-DD format)
     - status : valid values - 'incomplete','complete'
     
-## 4. Delete Task : DELETE {{host}}/tasks/{taskId}
+## 7. Delete Task : DELETE {{host}}/tasks/{taskId}
     
     takes {taskId} as path param. refers to id of the task to be updated
     

@@ -1,3 +1,3 @@
 const mongoose = require("mongoose");
-const mongoDBURI = "mongodb://127.0.0.1:27017/task-api-elred";
+const mongoDBURI = process.env.MONGODB_URI;
 mongoose.connect(mongoDBURI);

@@ -8,6 +8,8 @@ const initializeSession = require("./middlewares/initializeSession");
 
 app.use(initializeSession);
 
+const PORT = process.env.PORT;
+
 const userRouter = require("./router/userRouter");
 const taskRouter = require("./router/taskRouter");
 
@@ -15,4 +17,4 @@ app.use("/users", userRouter);
 
 app.use("/tasks", taskRouter);
 
-app.listen(3000, () => console.log("server up"));
+app.listen(PORT, () => console.log("server up"));

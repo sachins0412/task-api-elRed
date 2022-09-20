@@ -8,7 +8,7 @@ const store = new MongoDBSession({
 });
 
 const initializeSession = session({
-  secret: "mysecret",
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {

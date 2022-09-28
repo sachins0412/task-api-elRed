@@ -3,7 +3,7 @@ const moment = require("moment");
 const taskSchema = mongoose.Schema({
   date: {
     type: String,
-    default: () => moment(new Date()).format("YYYY-MM-DD"),
+    required: true,
   },
   task: {
     type: String,
@@ -12,7 +12,7 @@ const taskSchema = mongoose.Schema({
   },
   status: {
     type: String,
-    default: "incomplete",
+    required: true,
     lowercase: true,
     validate(value) {
       if (!["incomplete", "complete"].includes(value)) {

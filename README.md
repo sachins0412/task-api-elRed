@@ -6,7 +6,7 @@ User can use the patch endpoint to update an existing task and the delete endpoi
 
 Both patching and deleting are done using the task's unique id which is provided as an output whenever a task is created or updated.
 
-Postman collection for the api is given in the repo. the following info can also be taken as a ref :
+Following info can be taken as a ref :
 
  
 ## 1. Signup : POST {{host}}/users/signup

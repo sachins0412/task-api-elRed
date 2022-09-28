@@ -36,18 +36,21 @@ Following info can be taken as a ref :
     - otp : String
     
     It verifies the otp. If valid, user session begins. If invalid, user can retry. To regenerate the OTP user has to login via /users/login route.
+    It returns a JWT token which has to be provided in the Authorization header for every subsequent request.
     
 ## 4. Logout : POST {{host}}/users/login
 
-    logs out the current logged in user
+    logs out the current logged in user. Have to provide the JWT token in Authorization header to perform this action
     
 ## 5. Create Task : POST {{host}}/tasks/create
 
     takes the following as request body in JSON :
     
     - task : String, required
-    - date : String, default - today's date ( YYYY-MM-DD format)
-    - status : String, default - 'incomplete', valid values - 'incomplete','complete'
+    - date : String, required ( YYYY-MM-DD format)
+    - status : String, required, valid values - 'incomplete','complete'
+    
+     Headers : Authorization : Bearer {{JWT_TOKEN}}
     
 ## 6. Update Task : PATCH {{host}}/tasks/{taskId}
     
@@ -59,11 +62,15 @@ Following info can be taken as a ref :
     - date : String( YYYY-MM-DD format)
     - status : valid values - 'incomplete','complete'
     
+     Headers : Authorization : Bearer {{JWT_TOKEN}}
+    
 ## 7. Delete Task : DELETE {{host}}/tasks/{taskId}
     
     takes {taskId} as path param. refers to id of the task to be updated
     
+     Headers : Authorization : Bearer {{JWT_TOKEN}}
+    
 
-### Please note that a user session is active only for 30secs. after that user has to login again
+### Please note that a user session is active only for 30secs. after that user has to login and verify OTP again
  
  

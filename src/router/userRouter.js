@@ -5,6 +5,7 @@ const { User } = require("./../models/user");
 
 const { sendEmail } = require("../utils/sendEmail");
 const generateOTP = require("./../utils/otpGenerator");
+const isAuth = require("./../middlewares/isAuth");
 
 router.post("/signup", async (req, res) => {
   const user = new User(req.body);
@@ -39,12 +40,16 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/logout", (req, res) => {
-  if (req.session.isAuth) {
-    req.session.destroy(); // change to use JWT approach
-    return res.send("logged off now");
+router.post("/logout", isAuth, async (req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter((token) => {
+      return token.token == req.user.token;
+    });
+    await req.user.save();
+    res.send("You are logged off now");
+  } catch (e) {
+    res.status(500).send("Something went wrong");
   }
-  res.status(401).send("you are not logged in");
 });
 
 router.post("/verify", async (req, res) => {

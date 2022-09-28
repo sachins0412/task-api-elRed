@@ -7,7 +7,7 @@ const isAuth = require("./../middlewares/isAuth");
 router.post("/create", isAuth, checkDate, async (req, res) => {
   const task = new Task({
     ...req.body,
-    owner: req.session.user,
+    owner: req.session.user, //have to change to jwt approach
   });
 
   try {
@@ -23,7 +23,7 @@ router.patch("/:id", isAuth, checkDate, async (req, res) => {
   try {
     const task = await Task.findOne({
       _id: req.params.id,
-      owner: req.session.user,
+      owner: req.session.user, //have to change to jwt approach
     });
 
     if (!task) {
@@ -45,7 +45,7 @@ router.delete("/:id", isAuth, async (req, res) => {
   try {
     const task = await Task.findOneAndDelete({
       _id: req.params.id,
-      owner: req.session.user,
+      owner: req.session.user, //have to change to jwt approach
     });
 
     if (!task) {

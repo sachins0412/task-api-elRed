@@ -6,9 +6,7 @@ const { User } = require("./../models/user");
 const { sendEmail } = require("../utils/sendEmail");
 const generateOTP = require("./../utils/otpGenerator");
 
-const checkLoggedIn = require("./../middlewares/checkLoggedInMiddleware");
-
-router.post("/signup", checkLoggedIn, async (req, res) => {
+router.post("/signup", async (req, res) => {
   const user = new User(req.body);
   user.otp = generateOTP();
   try {
@@ -24,7 +22,7 @@ router.post("/signup", checkLoggedIn, async (req, res) => {
   }
 });
 
-router.post("/login", checkLoggedIn, async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const user = await User.findUser(req.body.email, req.body.password);
 
@@ -43,7 +41,7 @@ router.post("/login", checkLoggedIn, async (req, res) => {
 
 router.post("/logout", (req, res) => {
   if (req.session.isAuth) {
-    req.session.destroy();
+    req.session.destroy(); // change to use JWT approach
     return res.send("logged off now");
   }
   res.status(401).send("you are not logged in");
@@ -67,8 +65,8 @@ router.post("/verify", async (req, res) => {
     user.set("otp", undefined, { strict: false });
     await user.save();
 
-    req.session.isAuth = true;
-    req.session.user = user;
+    req.session.isAuth = true; // change to use JWT approach
+    req.session.user = user; // change to use JWT approach
 
     res.send("OTP verified. You are now logged in");
   } else {

@@ -63,12 +63,17 @@ router.post("/verify", async (req, res) => {
 
   if (user.otp === parseInt(otp)) {
     user.set("otp", undefined, { strict: false });
+
+    const token = await user.generateAuthToken();
     await user.save();
 
-    req.session.isAuth = true; // change to use JWT approach
-    req.session.user = user; // change to use JWT approach
+    const response = {
+      message: "OTP verified. You are now logged in",
+      user,
+      token,
+    };
 
-    res.send("OTP verified. You are now logged in");
+    res.send(response);
   } else {
     res.status(400).send("OTP verification failed");
   }

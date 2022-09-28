@@ -29,6 +29,14 @@ const userSchema = mongoose.Schema({
   otp: {
     type: Number,
   },
+  tokens: [
+    {
+      token: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
 
 userSchema.virtual("tasks", {

@@ -4,11 +4,7 @@ app.use(express.json());
 
 require("./database/mongoose");
 
-const initializeSession = require("./middlewares/initializeSession");
-
-app.use(initializeSession);
-
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 const userRouter = require("./router/userRouter");
 const taskRouter = require("./router/taskRouter");

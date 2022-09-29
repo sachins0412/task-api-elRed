@@ -1,10 +1,4 @@
-function checkUnknowns(params, allowedKeys) {
-  for (const key in params) {
-    if (params.hasOwnProperty(key) && !allowedKeys.has(key)) {
-      throw new Error("Unknown keys in request body.");
-    }
-  }
-}
+const checkUnknowns = require("./../utils/checkUnknowns");
 
 const signupSchemaValidator = (req, res, next) => {
   const allowedKeys = new Set(["username", "email", "password"]);

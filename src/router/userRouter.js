@@ -6,8 +6,13 @@ const { User } = require("./../models/user");
 const { sendEmail } = require("../utils/sendEmail");
 const generateOTP = require("./../utils/otpGenerator");
 const isAuth = require("./../middlewares/isAuth");
+const {
+  signupSchemaValidator,
+  loginSchemaValidator,
+  verifyOTPSchemaValidator,
+} = require("./../middlewares/userSchemaValidator");
 
-router.post("/signup", async (req, res) => {
+router.post("/signup", signupSchemaValidator, async (req, res) => {
   const user = new User(req.body);
   user.otp = generateOTP();
   try {
@@ -23,7 +28,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", loginSchemaValidator, async (req, res) => {
   try {
     const user = await User.findUser(req.body.email, req.body.password);
 
@@ -52,7 +57,7 @@ router.post("/logout", isAuth, async (req, res) => {
   }
 });
 
-router.post("/verify", async (req, res) => {
+router.post("/verify", verifyOTPSchemaValidator, async (req, res) => {
   const { email, otp } = req.body;
   const user = await User.findOne({ email });
 
